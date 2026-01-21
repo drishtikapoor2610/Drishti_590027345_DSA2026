@@ -1,0 +1,22 @@
+#include <stdio.h>
+//WAP to find factorial of a number using iterative method.
+
+int main() {
+    int number, i;
+    unsigned long long factorial = 1;
+
+    printf("Enter a positive integer: ");
+    scanf("%d", &number);
+
+    // Check if the number is negative
+    if (number < 0) {
+        printf("Factorial of a negative number doesn't exist.\n");
+    } else {
+        for (i = 1; i <= number; ++i) {
+            factorial *= i; // factorial = factorial * i;
+        }
+        printf("Factorial of %d = %llu\n", number, factorial);
+    }
+
+    return 0;
+}
