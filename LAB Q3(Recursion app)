@@ -1,21 +1,25 @@
 #include <stdio.h>
-// WAP to find factorial using Recursion 
-long long factorial(int n)
+
+long long findFact(int num)
 {
-    if(n == 0 || n == 1)
+    if(num <= 1)
         return 1;
-    else
-        return n * factorial(n - 1);
+        
+    return num * findFact(num - 1);
 }
 
 int main()
 {
-    int n;
+    int value;
+    long long result;
 
-    printf("Enter a number: ");
-    scanf("%d", &n);
+    printf("Enter any number: ");
+    scanf("%d", &value);
 
-    printf("Factorial of %d = %lld", n, factorial(n));
+    result = findFact(value);
+
+    printf("Factorial of %d is %lld", value, result);
 
     return 0;
 }
+
