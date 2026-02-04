@@ -1,0 +1,36 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+int main() {
+
+    int size;
+    int *numbers;
+
+    printf("How many numbers do you want to store? ");
+    scanf("%d", &size);
+
+    numbers = malloc(size * sizeof(int));
+
+    if(numbers == NULL) {
+        printf("Unable to allocate memory.");
+        return 0;
+    }
+
+    for(int i = 0; i < size; i++) {
+        printf("Enter value %d: ", i + 1);
+        scanf("%d", numbers + i);
+    }
+
+    printf("\nStored values are:\n");
+
+    for(int i = 0; i < size; i++) {
+        printf("%d ", *(numbers + i));
+    }
+
+    free(numbers);
+
+    printf("\nMemory has been released successfully.");
+
+    return 0;
+}
+
