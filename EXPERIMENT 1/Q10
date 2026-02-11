@@ -1,0 +1,39 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+struct student {
+    int roll;
+    float marks;
+};
+
+int main() {
+    struct student *s, temp;
+    int n, i, j;
+
+    printf("Enter number of students: ");
+    scanf("%d", &n);
+
+    s = (struct student *)malloc(n * sizeof(struct student));
+
+    for (i = 0; i < n; i++) {
+        scanf("%d %f", &s[i].roll, &s[i].marks);
+    }
+
+    for (i = 0; i < n - 1; i++) {
+        for (j = i + 1; j < n; j++) {
+            if (s[i].marks > s[j].marks) {
+                temp = s[i];
+                s[i] = s[j];
+                s[j] = temp;
+            }
+        }
+    }
+
+    printf("Sorted Records:\n");
+    for (i = 0; i < n; i++) {
+        printf("%d %.2f\n", s[i].roll, s[i].marks);
+    }
+
+    free(s);
+    return 0;
+}
