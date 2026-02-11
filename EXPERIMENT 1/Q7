@@ -1,0 +1,36 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+struct record {
+    int data;
+};
+
+int main() {
+    struct record *r = NULL;
+    int choice, n = 0;
+
+    do {
+        printf("\n1.Add 2.Display 3.Delete 4.Exit\n");
+        scanf("%d", &choice);
+
+        if (choice == 1) {
+            n++;
+            r = realloc(r, n * sizeof(struct record));
+            printf("Enter data: ");
+            scanf("%d", &r[n - 1].data);
+        }
+        else if (choice == 2) {
+            for (int i = 0; i < n; i++)
+                printf("%d ", r[i].data);
+        }
+        else if (choice == 3) {
+            free(r);
+            r = NULL;
+            n = 0;
+            printf("Records deleted");
+        }
+    } while (choice != 4);
+
+    free(r);
+    return 0;
+}
