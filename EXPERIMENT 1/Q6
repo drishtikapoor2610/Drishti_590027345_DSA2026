@@ -1,0 +1,33 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+struct employee {
+    int id;
+    float salary;
+};
+
+int main() {
+    struct employee *e;
+    int n, i, maxIndex = 0;
+
+    printf("Enter number of employees: ");
+    scanf("%d", &n);
+
+    e = (struct employee *)malloc(n * sizeof(struct employee));
+
+    for (i = 0; i < n; i++) {
+        printf("Enter ID and salary: ");
+        scanf("%d %f", &e[i].id, &e[i].salary);
+    }
+
+    for (i = 1; i < n; i++) {
+        if (e[i].salary > e[maxIndex].salary)
+            maxIndex = i;
+    }
+
+    printf("Highest Salary Employee:\n");
+    printf("ID: %d Salary: %.2f", e[maxIndex].id, e[maxIndex].salary);
+
+    free(e);
+    return 0;
+}
