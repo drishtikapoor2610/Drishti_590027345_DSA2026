@@ -1,0 +1,17 @@
+#include <stdio.h>
+
+struct sample {
+    int a;
+    float b;
+};
+
+union sample2 {
+    int a;
+    float b;
+};
+
+int main() {
+    printf("Size of structure: %lu\n", sizeof(struct sample));
+    printf("Size of union: %lu\n", sizeof(union sample2));
+    return 0;
+}
