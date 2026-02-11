@@ -1,36 +1,54 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-int main() {
+int main() 
+{
+    int count, i;
+    int *arr;
+    int total = 0;
+    float average;
 
-    int size;
-    int *numbers;
+    printf("Enter the total number of elements: ");
+    scanf("%d", &count);
 
-    printf("How many numbers do you want to store? ");
-    scanf("%d", &size);
-
-    numbers = malloc(size * sizeof(int));
-
-    if(numbers == NULL) {
-        printf("Unable to allocate memory.");
-        return 0;
+    if (count <= 0)
+    {
+        printf("Invalid size entered.\n");
+        return 1;
     }
 
-    for(int i = 0; i < size; i++) {
-        printf("Enter value %d: ", i + 1);
-        scanf("%d", numbers + i);
+    arr = (int *)calloc(count, sizeof(int));
+
+    if (arr == NULL)
+    {
+        printf("Memory allocation failed.\n");
+        return 1;
     }
 
-    printf("\nStored values are:\n");
+    printf("\nEnter %d integers:\n", count);
 
-    for(int i = 0; i < size; i++) {
-        printf("%d ", *(numbers + i));
+    for (i = 0; i < count; i++)
+    {
+        printf("Element %d: ", i + 1);
+        scanf("%d", &arr[i]);
+        total += arr[i];
     }
 
-    free(numbers);
+    printf("\nThe entered elements are:\n");
+    for (i = 0; i < count; i++)
+    {
+        printf("%d ", arr[i]);
+    }
 
-    printf("\nMemory has been released successfully.");
+    average = (float)total / count;
+
+    printf("\n\nSum = %d", total);
+    printf("\nAverage = %.2f\n", average);
+
+    free(arr);
+    arr = NULL;
+
+    printf("\nMemory released successfully.\n");
 
     return 0;
 }
-
