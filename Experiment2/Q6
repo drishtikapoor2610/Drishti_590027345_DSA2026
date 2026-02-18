@@ -1,0 +1,25 @@
+void reverseOnlyData(struct ListUnit *start) {
+    int count = 0;
+    struct ListUnit *walk = start;
+
+    while (walk != NULL) {
+        count++;
+        walk = walk->link;
+    }
+
+    if (count == 0) return;
+
+    int storage[count];
+    walk = start;
+
+    for (int i = 0; i < count; i++) {
+        storage[i] = walk->value;
+        walk = walk->link;
+    }
+
+    walk = start;
+    for (int i = count - 1; i >= 0; i--) {
+        walk->value = storage[i];
+        walk = walk->link;
+    }
+}
