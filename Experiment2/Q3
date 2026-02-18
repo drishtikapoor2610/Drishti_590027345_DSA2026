@@ -1,40 +1,115 @@
-void addAtStart(struct ListUnit **start, int item) {
-    struct ListUnit *node = (struct ListUnit*)malloc(sizeof(struct ListUnit));
-    node->value = item;
-    node->link = *start;
-    *start = node;
-}
+#include <stdio.h>
+#include <stdlib.h>
 
-void addAtLast(struct ListUnit **start, int item) {
-    struct ListUnit *node = (struct ListUnit*)malloc(sizeof(struct ListUnit));
-    node->value = item;
-    node->link = NULL;
+struct Node {
+    int data;
+    struct Node *next;
+};
 
-    if (*start == NULL) {
-        *start = node;
+void display(struct Node *head) {
+    struct Node *temp = head;
+
+    if(head == NULL) {
+        printf("List is empty.\n");
         return;
     }
 
-    struct ListUnit *move = *start;
-    while (move->link != NULL)
-        move = move->link;
-
-    move->link = node;
+    printf("Linked List: ");
+    while(temp != NULL) {
+        printf("%d -> ", temp->data);
+        temp = temp->next;
+    }
+    printf("NULL\n");
 }
 
-void addAfterValue(struct ListUnit *start, int key, int item) {
-    struct ListUnit *scan = start;
+void insertBeginning(struct Node **head, int value) {
+    struct Node *newNode = (struct Node*)malloc(sizeof(struct Node));
+    newNode->data = value;
+    newNode->next = *head;
+    *head = newNode;
+}
 
-    while (scan != NULL && scan->value != key)
-        scan = scan->link;
+void insertEnd(struct Node **head, int value) {
+    struct Node *newNode = (struct Node*)malloc(sizeof(struct Node));
+    newNode->data = value;
+    newNode->next = NULL;
 
-    if (scan == NULL) {
-        printf("Specified element not found.\n");
+    if(*head == NULL) {
+        *head = newNode;
         return;
     }
 
-    struct ListUnit *node = (struct ListUnit*)malloc(sizeof(struct ListUnit));
-    node->value = item;
-    node->link = scan->link;
-    scan->link = node;
+    struct Node *temp = *head;
+    while(temp->next != NULL)
+        temp = temp->next;
+
+    temp->next = newNode;
+}
+
+void insertAfter(struct Node *head, int key, int value) {
+    struct Node *temp = head;
+
+    while(temp != NULL && temp->data != key)
+        temp = temp->next;
+
+    if(temp == NULL) {
+        printf("Element not found.\n");
+        return;
+    }
+
+    struct Node *newNode = (struct Node*)malloc(sizeof(struct Node));
+    newNode->data = value;
+    newNode->next = temp->next;
+    temp->next = newNode;
+}
+
+int main() {
+    struct Node *head = NULL;
+    int choice, value, key;
+
+    do {
+        printf("\n1.Insert Beginning");
+        printf("\n2.Insert End");
+        printf("\n3.Insert After Given Element");
+        printf("\n4.Display");
+        printf("\n0.Exit");
+        printf("\nEnter choice: ");
+        scanf("%d", &choice);
+
+        switch(choice) {
+            case 1:
+                printf("Enter value: ");
+                scanf("%d", &value);
+                insertBeginning(&head, value);
+                break;
+
+            case 2:
+                printf("Enter value: ");
+                scanf("%d", &value);
+                insertEnd(&head, value);
+                break;
+
+            case 3:
+                printf("Enter element after which to insert: ");
+                scanf("%d", &key);
+                printf("Enter new value: ");
+                scanf("%d", &value);
+                insertAfter(head, key, value);
+                break;
+
+            case 4:
+                display(head);
+                break;
+
+            case 0:
+                printf("Exiting...\n");
+                break;
+
+            default:
+                printf("Invalid choice!\n");
+        }
+
+    } while(choice != 0);
+
+    return 0;
 }
