@@ -1,42 +1,55 @@
-void removeFirst(struct ListUnit **start) {
-    if (*start == NULL) {
-        printf("List already empty.\n");
+#include <stdio.h>
+#include <stdlib.h>
+
+struct Node {
+    int data;
+    struct Node *next;
+};
+
+void display(struct Node *head) {
+    if(head == NULL) {
+        printf("List is empty.\n");
         return;
     }
 
-    struct ListUnit *erase = *start;
-    *start = erase->link;
-    free(erase);
+    printf("Linked List: ");
+    while(head != NULL) {
+        printf("%d -> ", head->data);
+        head = head->next;
+    }
+    printf("NULL\n");
 }
 
-void removeLast(struct ListUnit **start) {
-    if (*start == NULL) return;
+void insertEnd(struct Node **head, int value) {
+    struct Node *newNode = (struct Node*)malloc(sizeof(struct Node));
+    newNode->data = value;
+    newNode->next = NULL;
 
-    struct ListUnit *scan = *start;
-
-    if (scan->link == NULL) {
-        free(scan);
-        *start = NULL;
+    if(*head == NULL) {
+        *head = newNode;
         return;
     }
 
-    while (scan->link->link != NULL)
-        scan = scan->link;
+    struct Node *temp = *head;
+    while(temp->next != NULL)
+        temp = temp->next;
 
-    free(scan->link);
-    scan->link = NULL;
+    temp->next = newNode;
 }
 
-void removeAfterValue(struct ListUnit *start, int key) {
-    struct ListUnit *scan = start;
-
-    while (scan != NULL && scan->value != key)
-        scan = scan->link;
-
-    if (scan == NULL || scan->link == NULL)
+void deleteBeginning(struct Node **head) {
+    if(*head == NULL) {
+        printf("List is already empty.\n");
         return;
+    }
 
-    struct ListUnit *erase = scan->link;
-    scan->link = erase->link;
-    free(erase);
+    struct Node *temp = *head;
+    *head = temp->next;
+    free(temp);
+
+    printf("First node deleted successfully.\n");
 }
+
+void deleteEnd(struct Node **head) {
+    if(*head == NULL) {
+        print
