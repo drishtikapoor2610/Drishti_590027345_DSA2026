@@ -1,0 +1,42 @@
+void removeFirst(struct ListUnit **start) {
+    if (*start == NULL) {
+        printf("List already empty.\n");
+        return;
+    }
+
+    struct ListUnit *erase = *start;
+    *start = erase->link;
+    free(erase);
+}
+
+void removeLast(struct ListUnit **start) {
+    if (*start == NULL) return;
+
+    struct ListUnit *scan = *start;
+
+    if (scan->link == NULL) {
+        free(scan);
+        *start = NULL;
+        return;
+    }
+
+    while (scan->link->link != NULL)
+        scan = scan->link;
+
+    free(scan->link);
+    scan->link = NULL;
+}
+
+void removeAfterValue(struct ListUnit *start, int key) {
+    struct ListUnit *scan = start;
+
+    while (scan != NULL && scan->value != key)
+        scan = scan->link;
+
+    if (scan == NULL || scan->link == NULL)
+        return;
+
+    struct ListUnit *erase = scan->link;
+    scan->link = erase->link;
+    free(erase);
+}
