@@ -2,27 +2,171 @@
 #include <stdlib.h>
 
 struct DCNode {
-    int value;
+    int data;
     struct DCNode *prev;
     struct DCNode *next;
 };
 
-void insertStart(struct DCNode **head, int val) {
-    struct DCNode *node = malloc(sizeof(struct DCNode));
-    node->value = val;
+void display(struct DCNode *head) {
+    if(head == NULL) {
+        printf("List is empty.\n");
+        return;
+    }
 
-    if (*head == NULL) {
-        node->next = node;
-        node->prev = node;
-        *head = node;
+    struct DCNode *temp = head;
+    int count = 0;
+
+    printf("Doubly Circular List: ");
+    do {
+        printf("%d <-> ", temp->data);
+        temp = temp->next;
+        count++;
+    } while(temp != head);
+
+    printf("(Back to Head)\n");
+    printf("Total Nodes: %d\n", count);
+}
+
+void insertBeginning(struct DCNode **head, int value) {
+    struct DCNode *newNode = malloc(sizeof(struct DCNode));
+    newNode->data = value;
+
+    if(*head == NULL) {
+        newNode->next = newNode;
+        newNode->prev = newNode;
+        *head = newNode;
         return;
     }
 
     struct DCNode *last = (*head)->prev;
 
-    node->next = *head;
-    node->prev = last;
-    last->next = node;
-    (*head)->prev = node;
-    *head = node;
+    newNode->next = *head;
+    newNode->prev = last;
+
+    last->next = newNode;
+    (*head)->prev = newNode;
+
+    *head = newNode;
+}
+
+void insertEnd(struct DCNode **head, int value) {
+    struct DCNode *newNode = malloc(sizeof(struct DCNode));
+    newNode->data = value;
+
+    if(*head == NULL) {
+        newNode->next = newNode;
+        newNode->prev = newNode;
+        *head = newNode;
+        return;
+    }
+
+    struct DCNode *last = (*head)->prev;
+
+    newNode->next = *head;
+    newNode->prev = last;
+
+    last->next = newNode;
+    (*head)->prev = newNode;
+}
+
+void deleteBeginning(struct DCNode **head) {
+    if(*head == NULL) {
+        printf("List already empty.\n");
+        return;
+    }
+
+    struct DCNode *temp = *head;
+
+    if(temp->next == temp) {
+        free(temp);
+        *head = NULL;
+        printf("Only node deleted.\n");
+        return;
+    }
+
+    struct DCNode *last = temp->prev;
+
+    *head = temp->next;
+    (*head)->prev = last;
+    last->next = *head;
+
+    free(temp);
+    printf("First node deleted.\n");
+}
+
+void deleteEnd(struct DCNode **head) {
+    if(*head == NULL) {
+        printf("List already empty.\n");
+        return;
+    }
+
+    struct DCNode *last = (*head)->prev;
+
+    if(last == *head) {
+        free(last);
+        *head = NULL;
+        printf("Only node deleted.\n");
+        return;
+    }
+
+    struct DCNode *secondLast = last->prev;
+
+    secondLast->next = *head;
+    (*head)->prev = secondLast;
+
+    free(last);
+    printf("Last node deleted.\n");
+}
+
+int main() {
+    struct DCNode *head = NULL;
+    int choice, value;
+
+    do {
+        printf("\n1.Insert Beginning");
+        printf("\n2.Insert End");
+        printf("\n3.Delete Beginning");
+        printf("\n4.Delete End");
+        printf("\n5.Display");
+        printf("\n0.Exit");
+        printf("\nEnter choice: ");
+        scanf("%d", &choice);
+
+        switch(choice) {
+
+            case 1:
+                printf("Enter value: ");
+                scanf("%d", &value);
+                insertBeginning(&head, value);
+                break;
+
+            case 2:
+                printf("Enter value: ");
+                scanf("%d", &value);
+                insertEnd(&head, value);
+                break;
+
+            case 3:
+                deleteBeginning(&head);
+                break;
+
+            case 4:
+                deleteEnd(&head);
+                break;
+
+            case 5:
+                display(head);
+                break;
+
+            case 0:
+                printf("Program exited.\n");
+                break;
+
+            default:
+                printf("Invalid choice.\n");
+        }
+
+    } while(choice != 0);
+
+    return 0;
 }
