@@ -1,34 +1,99 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <math.h>
 
-struct PolyTerm {
+struct PolyNode {
     int coeff;
-    int power;
-    struct PolyTerm *next;
+    int exp;
+    struct PolyNode *next;
 };
 
-void addTerm(struct PolyTerm **poly, int c, int p) {
-    struct PolyTerm *node = malloc(sizeof(struct PolyTerm));
-    node->coeff = c;
-    node->power = p;
-    node->next = NULL;
+void insertTerm(struct PolyNode **head, int c, int e) {
+    struct PolyNode *newNode = malloc(sizeof(struct PolyNode));
+    newNode->coeff = c;
+    newNode->exp = e;
+    newNode->next = NULL;
 
-    if (*poly == NULL)
-        *poly = node;
-    else {
-        struct PolyTerm *move = *poly;
-        while (move->next != NULL)
-            move = move->next;
-        move->next = node;
+    if(*head == NULL) {
+        *head = newNode;
+        return;
     }
+
+    struct PolyNode *temp = *head;
+    while(temp->next != NULL)
+        temp = temp->next;
+
+    temp->next = newNode;
 }
 
-void displayPoly(struct PolyTerm *poly) {
-    while (poly != NULL) {
-        printf("%dx^%d", poly->coeff, poly->power);
-        if (poly->next != NULL)
+void displayPolynomial(struct PolyNode *head) {
+    if(head == NULL) {
+        printf("Polynomial is empty.\n");
+        return;
+    }
+
+    printf("Polynomial: ");
+    while(head != NULL) {
+        printf("%dx^%d", head->coeff, head->exp);
+        if(head->next != NULL)
             printf(" + ");
-        poly = poly->next;
+        head = head->next;
     }
     printf("\n");
+}
+
+float evaluatePolynomial(struct PolyNode *head, int x) {
+    float result = 0;
+
+    while(head != NULL) {
+        result += head->coeff * pow(x, head->exp);
+        head = head->next;
+    }
+
+    return result;
+}
+
+int main() {
+    struct PolyNode *head = NULL;
+    int choice, c, e, x;
+
+    do {
+        printf("\n1.Insert Term");
+        printf("\n2.Display Polynomial");
+        printf("\n3.Evaluate Polynomial");
+        printf("\n0.Exit");
+        printf("\nEnter choice: ");
+        scanf("%d", &choice);
+
+        switch(choice) {
+
+            case 1:
+                printf("Enter coefficient: ");
+                scanf("%d", &c);
+                printf("Enter exponent: ");
+                scanf("%d", &e);
+                insertTerm(&head, c, e);
+                break;
+
+            case 2:
+                displayPolynomial(head);
+                break;
+
+            case 3:
+                printf("Enter value of x: ");
+                scanf("%d", &x);
+                printf("Result = %.2f\n", evaluatePolynomial(head, x));
+                break;
+
+            case 0:
+                printf("Program exited.\n");
+                break;
+
+            default:
+                printf("Invalid choice.\n");
+        }
+
+    } while(choice != 0);
+
+    return 0;
 }
