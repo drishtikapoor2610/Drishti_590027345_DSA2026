@@ -9,26 +9,117 @@ struct Student {
     struct Student *next;
 };
 
-void insertRecord(struct Student **head) {
-    struct Student *node = malloc(sizeof(struct Student));
+void insertStudent(struct Student **head) {
+    struct Student *newNode = malloc(sizeof(struct Student));
 
-    printf("Enter Roll: ");
-    scanf("%d", &node->roll);
+    printf("Enter Roll Number: ");
+    scanf("%d", &newNode->roll);
 
     printf("Enter Name: ");
-    scanf("%s", node->name);
+    scanf("%s", newNode->name);
 
     printf("Enter Marks: ");
-    scanf("%f", &node->marks);
+    scanf("%f", &newNode->marks);
 
-    node->next = *head;
-    *head = node;
+    newNode->next = *head;
+    *head = newNode;
+
+    printf("Record inserted successfully.\n");
 }
 
-void displayRecords(struct Student *head) {
-    while (head != NULL) {
-        printf("\nRoll: %d  Name: %s  Marks: %.2f",
+void displayStudents(struct Student *head) {
+    if(head == NULL) {
+        printf("No records available.\n");
+        return;
+    }
+
+    printf("\nStudent Records:\n");
+    while(head != NULL) {
+        printf("Roll: %d | Name: %s | Marks: %.2f\n",
                head->roll, head->name, head->marks);
         head = head->next;
     }
+}
+
+void searchStudent(struct Student *head, int roll) {
+    while(head != NULL) {
+        if(head->roll == roll) {
+            printf("Record Found:\n");
+            printf("Roll: %d | Name: %s | Marks: %.2f\n",
+                   head->roll, head->name, head->marks);
+            return;
+        }
+        head = head->next;
+    }
+    printf("Record not found.\n");
+}
+
+void deleteStudent(struct Student **head, int roll) {
+    struct Student *temp = *head, *prev = NULL;
+
+    while(temp != NULL && temp->roll != roll) {
+        prev = temp;
+        temp = temp->next;
+    }
+
+    if(temp == NULL) {
+        printf("Record not found.\n");
+        return;
+    }
+
+    if(prev == NULL)
+        *head = temp->next;
+    else
+        prev->next = temp->next;
+
+    free(temp);
+    printf("Record deleted successfully.\n");
+}
+
+int main() {
+    struct Student *head = NULL;
+    int choice, roll;
+
+    do {
+        printf("\n1.Insert Student");
+        printf("\n2.Display Students");
+        printf("\n3.Search Student");
+        printf("\n4.Delete Student");
+        printf("\n0.Exit");
+        printf("\nEnter choice: ");
+        scanf("%d", &choice);
+
+        switch(choice) {
+
+            case 1:
+                insertStudent(&head);
+                break;
+
+            case 2:
+                displayStudents(head);
+                break;
+
+            case 3:
+                printf("Enter Roll Number to search: ");
+                scanf("%d", &roll);
+                searchStudent(head, roll);
+                break;
+
+            case 4:
+                printf("Enter Roll Number to delete: ");
+                scanf("%d", &roll);
+                deleteStudent(&head, roll);
+                break;
+
+            case 0:
+                printf("Program exited.\n");
+                break;
+
+            default:
+                printf("Invalid choice.\n");
+        }
+
+    } while(choice != 0);
+
+    return 0;
 }
