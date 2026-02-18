@@ -1,0 +1,12 @@
+int findPosition(struct ListUnit *start, int target) {
+    int index = 1;
+    struct ListUnit *walker = start;
+
+    while (walker != NULL) {
+        if (walker->value == target)
+            return index;
+        walker = walker->link;
+        index++;
+    }
+    return -1;
+}
