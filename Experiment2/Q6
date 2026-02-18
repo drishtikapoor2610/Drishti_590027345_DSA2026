@@ -1,0 +1,36 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+struct CircleNode {
+    int data;
+    struct CircleNode *next;
+};
+
+void display(struct CircleNode *tail) {
+    if (tail == NULL) {
+        printf("List is empty.\n");
+        return;
+    }
+
+    struct CircleNode *ptr = tail->next;
+    int count = 0;
+
+    printf("Circular List: ");
+    do {
+        printf("%d ", ptr->data);
+        ptr = ptr->next;
+        count++;
+    } while (ptr != tail->next);
+
+    printf("\nTotal Nodes: %d\n", count);
+}
+
+void insertBeginning(struct CircleNode **tail, int val) {
+    struct CircleNode *node = malloc(sizeof(struct CircleNode));
+    node->data = val;
+
+    if (*tail == NULL) {
+        node->next = node;
+        *tail = node;
+    } else {
+        node->next = (*tail)->*
