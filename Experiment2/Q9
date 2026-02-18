@@ -1,0 +1,34 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+struct PolyTerm {
+    int coeff;
+    int power;
+    struct PolyTerm *next;
+};
+
+void addTerm(struct PolyTerm **poly, int c, int p) {
+    struct PolyTerm *node = malloc(sizeof(struct PolyTerm));
+    node->coeff = c;
+    node->power = p;
+    node->next = NULL;
+
+    if (*poly == NULL)
+        *poly = node;
+    else {
+        struct PolyTerm *move = *poly;
+        while (move->next != NULL)
+            move = move->next;
+        move->next = node;
+    }
+}
+
+void displayPoly(struct PolyTerm *poly) {
+    while (poly != NULL) {
+        printf("%dx^%d", poly->coeff, poly->power);
+        if (poly->next != NULL)
+            printf(" + ");
+        poly = poly->next;
+    }
+    printf("\n");
+}
