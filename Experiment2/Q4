@@ -52,4 +52,94 @@ void deleteBeginning(struct Node **head) {
 
 void deleteEnd(struct Node **head) {
     if(*head == NULL) {
-        print
+        printf("List is already empty.\n");
+        return;
+    }
+
+    struct Node *temp = *head;
+
+    if(temp->next == NULL) {
+        free(temp);
+        *head = NULL;
+        printf("Last node deleted successfully.\n");
+        return;
+    }
+
+    while(temp->next->next != NULL)
+        temp = temp->next;
+
+    free(temp->next);
+    temp->next = NULL;
+
+    printf("Last node deleted successfully.\n");
+}
+
+void deleteAfter(struct Node *head, int key) {
+    struct Node *temp = head;
+
+    while(temp != NULL && temp->data != key)
+        temp = temp->next;
+
+    if(temp == NULL || temp->next == NULL) {
+        printf("Deletion not possible.\n");
+        return;
+    }
+
+    struct Node *deleteNode = temp->next;
+    temp->next = deleteNode->next;
+    free(deleteNode);
+
+    printf("Node deleted after %d successfully.\n", key);
+}
+
+int main() {
+    struct Node *head = NULL;
+    int choice, value, key;
+
+    do {
+        printf("\n1.Insert (for testing)");
+        printf("\n2.Delete Beginning");
+        printf("\n3.Delete End");
+        printf("\n4.Delete After Given Element");
+        printf("\n5.Display");
+        printf("\n0.Exit");
+        printf("\nEnter choice: ");
+        scanf("%d", &choice);
+
+        switch(choice) {
+            case 1:
+                printf("Enter value: ");
+                scanf("%d", &value);
+                insertEnd(&head, value);
+                break;
+
+            case 2:
+                deleteBeginning(&head);
+                break;
+
+            case 3:
+                deleteEnd(&head);
+                break;
+
+            case 4:
+                printf("Enter element after which deletion should happen: ");
+                scanf("%d", &key);
+                deleteAfter(head, key);
+                break;
+
+            case 5:
+                display(head);
+                break;
+
+            case 0:
+                printf("Program exited.\n");
+                break;
+
+            default:
+                printf("Invalid choice.\n");
+        }
+
+    } while(choice != 0);
+
+    return 0;
+}
