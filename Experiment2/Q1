@@ -1,0 +1,57 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+struct ListUnit {
+    int value;
+    struct ListUnit *link;
+};
+
+void showList(struct ListUnit *start) {
+    struct ListUnit *ptr = start;
+    printf("\nElements in List: ");
+    while (ptr != NULL) {
+        printf("[%d] ", ptr->value);
+        ptr = ptr->link;
+    }
+    printf("\n");
+}
+
+int totalNodes(struct ListUnit *start) {
+    int total = 0;
+    struct ListUnit *ptr = start;
+    while (ptr != NULL) {
+        total++;
+        ptr = ptr->link;
+    }
+    return total;
+}
+
+int main() {
+    struct ListUnit *start = NULL, *temp, *newBlock;
+    int n, data;
+
+    printf("How many elements do you want? ");
+    scanf("%d", &n);
+
+    for(int i = 1; i <= n; i++) {
+        newBlock = (struct ListUnit*)malloc(sizeof(struct ListUnit));
+        printf("Enter element %d: ", i);
+        scanf("%d", &data);
+
+        newBlock->value = data;
+        newBlock->link = NULL;
+
+        if(start == NULL)
+            start = newBlock;
+        else {
+            temp = start;
+            while(temp->link != NULL)
+                temp = temp->link;
+            temp->link = newBlock;
+        }
+    }
+
+    showList(start);
+    printf("Total number of nodes = %d\n", totalNodes(start));
+    return 0;
+}
