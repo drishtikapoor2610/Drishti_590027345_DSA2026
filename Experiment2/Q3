@@ -1,0 +1,40 @@
+void addAtStart(struct ListUnit **start, int item) {
+    struct ListUnit *node = (struct ListUnit*)malloc(sizeof(struct ListUnit));
+    node->value = item;
+    node->link = *start;
+    *start = node;
+}
+
+void addAtLast(struct ListUnit **start, int item) {
+    struct ListUnit *node = (struct ListUnit*)malloc(sizeof(struct ListUnit));
+    node->value = item;
+    node->link = NULL;
+
+    if (*start == NULL) {
+        *start = node;
+        return;
+    }
+
+    struct ListUnit *move = *start;
+    while (move->link != NULL)
+        move = move->link;
+
+    move->link = node;
+}
+
+void addAfterValue(struct ListUnit *start, int key, int item) {
+    struct ListUnit *scan = start;
+
+    while (scan != NULL && scan->value != key)
+        scan = scan->link;
+
+    if (scan == NULL) {
+        printf("Specified element not found.\n");
+        return;
+    }
+
+    struct ListUnit *node = (struct ListUnit*)malloc(sizeof(struct ListUnit));
+    node->value = item;
+    node->link = scan->link;
+    scan->link = node;
+}
