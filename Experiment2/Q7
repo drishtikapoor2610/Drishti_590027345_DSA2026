@@ -1,0 +1,26 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+struct DoubleNode {
+    int info;
+    struct DoubleNode *prev;
+    struct DoubleNode *next;
+};
+
+void showForward(struct DoubleNode *start) {
+    int count = 0;
+    while (start != NULL) {
+        printf("%d ", start->info);
+        start = start->next;
+        count++;
+    }
+    printf("\nTotal Nodes: %d\n", count);
+}
+
+void showBackward(struct DoubleNode *end) {
+    while (end != NULL) {
+        printf("%d ", end->info);
+        end = end->prev;
+    }
+    printf("\n");
+}
