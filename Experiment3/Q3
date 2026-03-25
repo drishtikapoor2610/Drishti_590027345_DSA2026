@@ -1,0 +1,34 @@
+#include <stdio.h>
+#include <string.h>
+
+#define LIMIT 100
+
+char arr[LIMIT];
+int topPtr = -1;
+
+void pushChar(char ch) {
+    arr[++topPtr] = ch;
+}
+
+char popChar() {
+    return arr[topPtr--];
+}
+
+int main() {
+    char input[100];
+    printf("Enter text: ");
+    scanf("%s", input);
+
+    int len = strlen(input);
+
+    for (int i = 0; i < len; i++) {
+        pushChar(input[i]);
+    }
+
+    for (int i = 0; i < len; i++) {
+        input[i] = popChar();
+    }
+
+    printf("Reversed: %s", input);
+    return 0;
+}
