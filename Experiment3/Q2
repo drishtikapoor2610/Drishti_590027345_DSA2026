@@ -1,0 +1,59 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+struct StackNode {
+    int value;
+    struct StackNode* link;
+};
+
+struct StackNode* head = NULL;
+
+// Push operation
+void addNode(int val) {
+    struct StackNode* newNode = (struct StackNode*)malloc(sizeof(struct StackNode));
+    newNode->value = val;
+    newNode->link = head;
+    head = newNode;
+}
+
+// Pop operation
+void removeNode() {
+    if (head == NULL) {
+        printf("Stack empty\n");
+        return;
+    }
+
+    struct StackNode* temp = head;
+    printf("Deleted: %d\n", temp->value);
+    head = head->link;
+    free(temp);
+}
+
+// Display stack
+void printStack() {
+    struct StackNode* ptr = head;
+
+    if (ptr == NULL) {
+        printf("Stack empty\n");
+        return;
+    }
+
+    printf("Stack:\n");
+    while (ptr != NULL) {
+        printf("%d ", ptr->value);
+        ptr = ptr->link;
+    }
+    printf("\n");
+}
+
+int main() {
+    addNode(5);
+    addNode(15);
+    addNode(25);
+
+    printStack();
+    removeNode();
+    printStack();
+
+    return 0;
+}
