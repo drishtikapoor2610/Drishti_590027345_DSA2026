@@ -1,0 +1,50 @@
+#include <stdio.h>
+
+#define SIZE 10
+
+int stk[SIZE];
+int topIndex = -1;
+
+// Insert element
+void insertElement(int value) {
+    if (topIndex == SIZE - 1) {
+        printf("Overflow condition\n");
+        return;
+    }
+    stk[++topIndex] = value;
+}
+
+// Delete element
+void deleteElement() {
+    if (topIndex == -1) {
+        printf("Underflow condition\n");
+        return;
+    }
+    printf("Removed: %d\n", stk[topIndex--]);
+}
+
+// Show stack
+void showStack() {
+    if (topIndex == -1) {
+        printf("No elements in stack\n");
+        return;
+    }
+
+    printf("Stack elements:\n");
+    for (int i = topIndex; i >= 0; i--) {
+        printf("%d ", stk[i]);
+    }
+    printf("\n");
+}
+
+int main() {
+    insertElement(11);
+    insertElement(22);
+    insertElement(33);
+
+    showStack();
+    deleteElement();
+    showStack();
+
+    return 0;
+}
