@@ -1,0 +1,36 @@
+#include <stdio.h>
+#include <ctype.h>
+
+#define MAX 50
+
+int stackNum[MAX];
+int topVal = -1;
+
+void pushNum(int n) {
+    stackNum[++topVal] = n;
+}
+
+int popNum() {
+    return stackNum[topVal--];
+}
+
+int main() {
+    char exp[] = "23*54*+9-";
+
+    for (int i = 0; exp[i] != '\0'; i++) {
+        if (isdigit(exp[i])) {
+            pushNum(exp[i] - '0');
+        } else {
+            int b = popNum();
+            int a = popNum();
+
+            if (exp[i] == '+') pushNum(a + b);
+            else if (exp[i] == '-') pushNum(a - b);
+            else if (exp[i] == '*') pushNum(a * b);
+            else if (exp[i] == '/') pushNum(a / b);
+        }
+    }
+
+    printf("Final Result = %d", popNum());
+    return 0;
+}
