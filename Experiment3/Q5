@@ -1,0 +1,59 @@
+#include <stdio.h>
+#include <ctype.h>
+
+#define MAX 100
+
+char st[MAX];
+int topIdx = -1;
+
+void pushOp(char c) {
+    st[++topIdx] = c;
+}
+
+char popOp() {
+    return st[topIdx--];
+}
+
+int priority(char op) {
+    switch (op) {
+        case '^': return 3;
+        case '*':
+        case '/': return 2;
+        case '+':
+        case '-': return 1;
+    }
+    return 0;
+}
+
+int main() {
+    char inf[] = "A+B*(C^D-E)^(F+G*H)-I";
+    char post[100];
+    int j = 0;
+
+    for (int i = 0; inf[i]; i++) {
+        if (isalnum(inf[i])) {
+            post[j++] = inf[i];
+        } else if (inf[i] == '(') {
+            pushOp(inf[i]);
+        } else if (inf[i] == ')') {
+            while (st[topIdx] != '(') {
+                post[j++] = popOp();
+            }
+            popOp();
+        } else {
+            while (topIdx != -1 && priority(st[topIdx]) >= priority(inf[i])) {
+                post[j++] = popOp();
+            }
+            pushOp(inf[i]);
+        }
+    }
+
+    while (topIdx != -1) {
+        post[j++] = popOp();
+    }
+
+    post[j] = '\0';
+
+    printf("Postfix: %s", post);
+    return 0;
+}
