@@ -1,0 +1,54 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+struct TreeNode {
+    int value;
+    struct TreeNode *lchild, *rchild;
+};
+
+// create node
+struct TreeNode* newNode(int val) {
+    struct TreeNode* temp = (struct TreeNode*)malloc(sizeof(struct TreeNode));
+    temp->value = val;
+    temp->lchild = temp->rchild = NULL;
+    return temp;
+}
+
+// total nodes
+int totalNodes(struct TreeNode* root) {
+    if (root == NULL) return 0;
+    return 1 + totalNodes(root->lchild) + totalNodes(root->rchild);
+}
+
+// leaf nodes
+int leafCount(struct TreeNode* root) {
+    if (root == NULL) return 0;
+    if (root->lchild == NULL && root->rchild == NULL)
+        return 1;
+    return leafCount(root->lchild) + leafCount(root->rchild);
+}
+
+// tree height
+int treeHeight(struct TreeNode* root) {
+    if (root == NULL) return 0;
+
+    int left = treeHeight(root->lchild);
+    int right = treeHeight(root->rchild);
+
+    return (left > right ? left : right) + 1;
+}
+
+int main() {
+    struct TreeNode* root = newNode(10);
+
+    root->lchild = newNode(20);
+    root->rchild = newNode(30);
+    root->lchild->lchild = newNode(40);
+    root->lchild->rchild = newNode(50);
+
+    printf("Total Nodes = %d\n", totalNodes(root));
+    printf("Leaf Nodes = %d\n", leafCount(root));
+    printf("Height = %d\n", treeHeight(root));
+
+    return 0;
+}
