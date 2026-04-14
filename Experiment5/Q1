@@ -1,0 +1,58 @@
+#include <stdio.h>
+
+#define SIZE 50
+
+int bt[SIZE];
+
+// insert element at position
+void addNode(int val, int pos) {
+    if (pos < SIZE) {
+        bt[pos] = val;
+    }
+}
+
+// print tree
+void printTree(int n) {
+    for (int i = 0; i < n; i++) {
+        if (bt[i] != -1)
+            printf("%d ", bt[i]);
+    }
+}
+
+// show relations
+void nodeInfo(int pos) {
+    printf("\nSelected Node: %d\n", bt[pos]);
+
+    if (2*pos + 1 < SIZE && bt[2*pos+1] != -1)
+        printf("Left Child: %d\n", bt[2*pos+1]);
+    else
+        printf("Left Child: None\n");
+
+    if (2*pos + 2 < SIZE && bt[2*pos+2] != -1)
+        printf("Right Child: %d\n", bt[2*pos+2]);
+    else
+        printf("Right Child: None\n");
+
+    if (pos == 0)
+        printf("Parent: Root Node\n");
+    else
+        printf("Parent: %d\n", bt[(pos-1)/2]);
+}
+
+int main() {
+    for (int i = 0; i < SIZE; i++)
+        bt[i] = -1;
+
+    addNode(1, 0);
+    addNode(2, 1);
+    addNode(3, 2);
+    addNode(4, 3);
+    addNode(5, 4);
+
+    printf("Tree Data: ");
+    printTree(5);
+
+    nodeInfo(2);
+
+    return 0;
+}
