@@ -1,0 +1,48 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+struct Node {
+    int data;
+    struct Node *left, *right;
+};
+
+struct Node* createNode(int val) {
+    struct Node* n = (struct Node*)malloc(sizeof(struct Node));
+    n->data = val;
+    n->left = n->right = NULL;
+    return n;
+}
+
+struct Node* q[100];
+int f = 0, r = -1;
+
+void push(struct Node* n) {
+    q[++r] = n;
+}
+
+struct Node* pop() {
+    return q[f++];
+}
+
+void levelTraversal(struct Node* root) {
+    push(root);
+
+    while (f <= r) {
+        struct Node* temp = pop();
+        printf("%d ", temp->data);
+
+        if (temp->left) push(temp->left);
+        if (temp->right) push(temp->right);
+    }
+}
+
+int main() {
+    struct Node* root = createNode(1);
+    root->left = createNode(2);
+    root->right = createNode(3);
+
+    printf("Level Order: ");
+    levelTraversal(root);
+
+    return 0;
+}
