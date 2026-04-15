@@ -1,0 +1,94 @@
+#include <stdio.h>
+
+#define MAX 100
+
+int heap[MAX];
+int size = 0;
+
+// Swap
+void swap(int *a, int *b) {
+    int temp = *a;
+    *a = *b;
+    *b = temp;
+}
+
+// Heapify Up
+void heapifyUp(int index) {
+    while (index > 0 && heap[(index - 1) / 2] < heap[index]) {
+        swap(&heap[index], &heap[(index - 1) / 2]);
+        index = (index - 1) / 2;
+    }
+}
+
+// Heapify Down
+void heapifyDown(int index) {
+    int largest = index;
+    int left = 2 * index + 1;
+    int right = 2 * index + 2;
+
+    if (left < size && heap[left] > heap[largest])
+        largest = left;
+    if (right < size && heap[right] > heap[largest])
+        largest = right;
+
+    if (largest != index) {
+        swap(&heap[index], &heap[largest]);
+        heapifyDown(largest);
+    }
+}
+
+// Insert
+void insert(int value) {
+    heap[size] = value;
+    heapifyUp(size);
+    size++;
+}
+
+// Delete root
+void deleteRoot() {
+    if (size == 0) {
+        printf("Heap is empty\n");
+        return;
+    }
+
+    printf("Deleted element: %d\n", heap[0]);
+    heap[0] = heap[size - 1];
+    size--;
+    heapifyDown(0);
+}
+
+// Display
+void display() {
+    for (int i = 0; i < size; i++)
+        printf("%d ", heap[i]);
+    printf("\n");
+}
+
+// Main
+int main() {
+    int choice, value;
+
+    while (1) {
+        printf("\n1.Insert 2.Delete Root 3.Display 4.Exit\n");
+        scanf("%d", &choice);
+
+        switch (choice) {
+            case 1:
+                printf("Enter value: ");
+                scanf("%d", &value);
+                insert(value);
+                break;
+
+            case 2:
+                deleteRoot();
+                break;
+
+            case 3:
+                display();
+                break;
+
+            case 4:
+                return 0;
+        }
+    }
+}
