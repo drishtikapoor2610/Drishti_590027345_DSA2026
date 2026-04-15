@@ -1,0 +1,106 @@
+#include <stdio.h>
+
+#define MAX 100
+
+int pq[MAX];
+int size = 0;
+
+// Swap
+void swap(int *a, int *b) {
+    int temp = *a;
+    *a = *b;
+    *b = temp;
+}
+
+// Heapify Up
+void heapifyUp(int index) {
+    while (index > 0 && pq[(index - 1) / 2] < pq[index]) {
+        swap(&pq[index], &pq[(index - 1) / 2]);
+        index = (index - 1) / 2;
+    }
+}
+
+// Heapify Down
+void heapifyDown(int index) {
+    int largest = index;
+    int left = 2 * index + 1;
+    int right = 2 * index + 2;
+
+    if (left < size && pq[left] > pq[largest])
+        largest = left;
+    if (right < size && pq[right] > pq[largest])
+        largest = right;
+
+    if (largest != index) {
+        swap(&pq[index], &pq[largest]);
+        heapifyDown(largest);
+    }
+}
+
+// Insert
+void enqueue(int value) {
+    pq[size] = value;
+    heapifyUp(size);
+    size++;
+}
+
+// Delete
+void dequeue() {
+    if (size == 0) {
+        printf("Queue is empty\n");
+        return;
+    }
+
+    printf("Removed element: %d\n", pq[0]);
+    pq[0] = pq[size - 1];
+    size--;
+    heapifyDown(0);
+}
+
+// Peek
+void peek() {
+    if (size == 0)
+        printf("Queue is empty\n");
+    else
+        printf("Highest Priority: %d\n", pq[0]);
+}
+
+// Display
+void display() {
+    for (int i = 0; i < size; i++)
+        printf("%d ", pq[i]);
+    printf("\n");
+}
+
+// Main
+int main() {
+    int choice, value;
+
+    while (1) {
+        printf("\n1.Insert 2.Delete 3.Peek 4.Display 5.Exit\n");
+        scanf("%d", &choice);
+
+        switch (choice) {
+            case 1:
+                printf("Enter value: ");
+                scanf("%d", &value);
+                enqueue(value);
+                break;
+
+            case 2:
+                dequeue();
+                break;
+
+            case 3:
+                peek();
+                break;
+
+            case 4:
+                display();
+                break;
+
+            case 5:
+                return 0;
+        }
+    }
+}
