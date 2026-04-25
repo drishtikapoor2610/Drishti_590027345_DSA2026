@@ -1,0 +1,17 @@
+#include <stdio.h>
+
+int main()
+{
+    long int sap;
+    int last3, family;
+
+    printf("Enter SAP ID: ");
+    scanf("%ld",&sap);
+
+    last3 = sap % 1000;       
+    family = last3 % 10;      
+
+    printf("Student belongs to Family %d",family);
+
+    return 0;
+}
